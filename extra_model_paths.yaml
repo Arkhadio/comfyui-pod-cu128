@@ -1,0 +1,28 @@
+# Los modelos viven en el network volume, no en la imagen.
+# Ruta actual de tu volumen: /workspace/runpod-slim/ComfyUI/models
+comfyui:
+    base_path: /workspace/runpod-slim/ComfyUI/
+    is_default: true
+
+    checkpoints: models/checkpoints
+    clip: models/clip
+    clip_vision: models/clip_vision
+    configs: models/configs
+    controlnet: models/controlnet
+    diffusion_models: models/diffusion_models
+    embeddings: models/embeddings
+    loras: models/loras
+    text_encoders: models/text_encoders
+    ultralytics: models/ultralytics
+    ultralytics_bbox: models/ultralytics/bbox
+    ultralytics_segm: models/ultralytics/segm
+    upscale_models: models/upscale_models
+    vae: models/vae
+    sams: models/sams
+    reactor: models/reactor
+    insightface: models/insightface
+    model_patches: models/model_patches
+    ipadapter: models/ipadapter
+    detection: models/detection
+    llm_gguf: models/llm_gguf
+    custom_nodes: custom_nodes
