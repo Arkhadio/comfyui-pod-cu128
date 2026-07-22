@@ -49,6 +49,7 @@ link_model_dir hyperswap
 link_model_dir insightface
 link_model_dir facedetection
 link_model_dir facerestore_models
+link_model_dir llm_gguf
 
 # ---------- Custom nodes del volumen (persistentes) ----------
 # Los custom nodes que se instalan despues (via Manager o git) viven en el volumen.
@@ -66,7 +67,7 @@ fi
 # No estan en la imagen base; se reinstalan aqui (rapido si ya estan en cache del volumen).
 echo "Verificando librerias pip..."
 pip install --break-system-packages -q \
-    insightface timm mediapipe==0.10.14 blend_modes facexlib kornia \
+    insightface timm mediapipe==0.10.14 blend_modes facexlib kornia accelerate \
     2>/dev/null && echo "  librerias pip OK"
 
 # ---------- clip_vision con nombre alternativo (Wan Animate) ----------
@@ -123,6 +124,6 @@ exec python main.py \
     --listen 0.0.0.0 \
     --port 8188 \
     --enable-cors-header \
-    --output-directory /workspace/comfy/output \
+    --output-directory /opt/ComfyUI/output \
     --input-directory /workspace/comfy/input \
     --user-directory /workspace/comfy/user
