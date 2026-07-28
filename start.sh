@@ -20,7 +20,7 @@ if [[ -n "$PUBLIC_KEY" ]]; then
 fi
 
 # ---------- Carpetas persistentes ----------
-mkdir -p /workspace/comfy/output /workspace/comfy/input /workspace/comfy/user
+mkdir -p /workspace/comfy/output /workspace/comfy/user /opt/ComfyUI/input
 # ---------- Esqueleto del volumen (para volúmenes nuevos/vacíos) ----------
 VOLBASE=/workspace/runpod-slim/ComfyUI
 mkdir -p "$VOLBASE/custom_nodes"
@@ -50,6 +50,7 @@ link_model_dir insightface
 link_model_dir facedetection
 link_model_dir facerestore_models
 link_model_dir llm_gguf
+link_model_dir detection
 
 # ---------- Custom nodes del volumen (persistentes) ----------
 # Los custom nodes que se instalan despues (via Manager o git) viven en el volumen.
@@ -59,7 +60,12 @@ if [[ -d "$VOL_NODES" ]]; then
     echo "Enlazando custom nodes del volumen..."
     for d in "$VOL_NODES"/*/; do
         nombre=$(basename "$d")
-        ln -sfn "$d" "/opt/ComfyUI/custom_nodes/$nombre" 2>/dev/null && echo "  enlazado nodo: $nombre"
+        destino="/opt/ComfyUI/custom_nodes/$nombre"
+        # si la imagen trae una copia real, se elimina para que mande el volumen
+        if [[ -d "$destino" && ! -L "$destino" ]]; then
+            rm -rf "$destino"
+        fi
+        ln -sfn "${d%/}" "$destino" && echo "  enlazado nodo: $nombre"
     done
 fi
 
@@ -68,7 +74,9 @@ fi
 echo "Verificando librerias pip..."
 pip install --break-system-packages -q \
     insightface timm mediapipe==0.10.14 blend_modes facexlib kornia accelerate \
+    gguf qwen_vl_utils sageattention \
     2>/dev/null && echo "  librerias pip OK"
+pip install --break-system-packages -q -U diffusers 2>/dev/null && echo "  diffusers actualizado"
 
 # ---------- clip_vision con nombre alternativo (Wan Animate) ----------
 CV=/workspace/runpod-slim/ComfyUI/models/clip_vision
@@ -125,5 +133,5 @@ exec python main.py \
     --port 8188 \
     --enable-cors-header \
     --output-directory /opt/ComfyUI/output \
-    --input-directory /workspace/comfy/input \
+    --input-directory /opt/ComfyUI/input \
     --user-directory /workspace/comfy/user
