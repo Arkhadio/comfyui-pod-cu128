@@ -81,7 +81,7 @@ fi
 echo "Verificando librerias pip..."
 pip install --break-system-packages -q \
     insightface timm mediapipe==0.10.14 blend_modes facexlib kornia accelerate \
-    gguf qwen_vl_utils sageattention onnxruntime-gpu \
+    gguf qwen_vl_utils sageattention "onnxruntime-gpu<1.23" \
     2>/dev/null && echo "  librerias pip OK"
 pip install --break-system-packages -q -U diffusers 2>/dev/null && echo "  diffusers actualizado"
 
