@@ -9,7 +9,13 @@ echo "=== Pod ComfyUI — arranque (variante cu128) ==="
 if ! python -c "import socket; socket.gethostbyname('github.com')" 2>/dev/null; then
     echo "DNS roto, usando 8.8.8.8"
     echo "nameserver 8.8.8.8" > /etc/resolv.conf
-fi
+fi 
+
+# ---------- Actualizar ComfyUI (Animate2 / SCAIL / nodos nuevos) ----------
+echo "Actualizando ComfyUI..."
+( cd /opt/ComfyUI && git pull -q && \
+  pip install --break-system-packages -q -r requirements.txt ) \
+  && echo "  ComfyUI actualizado" || echo "  aviso: sin actualizar (sin red o conflicto)"
 
 # ---------- SSH ----------
 if [[ -n "$PUBLIC_KEY" ]]; then
@@ -51,6 +57,7 @@ link_model_dir facedetection
 link_model_dir facerestore_models
 link_model_dir llm_gguf
 link_model_dir detection
+link_model_dir face_parsing
 
 # ---------- Custom nodes del volumen (persistentes) ----------
 # Los custom nodes que se instalan despues (via Manager o git) viven en el volumen.
@@ -74,7 +81,7 @@ fi
 echo "Verificando librerias pip..."
 pip install --break-system-packages -q \
     insightface timm mediapipe==0.10.14 blend_modes facexlib kornia accelerate \
-    gguf qwen_vl_utils sageattention \
+    gguf qwen_vl_utils sageattention onnxruntime-gpu \
     2>/dev/null && echo "  librerias pip OK"
 pip install --break-system-packages -q -U diffusers 2>/dev/null && echo "  diffusers actualizado"
 
