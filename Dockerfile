@@ -97,7 +97,7 @@ RUN pip install jupyterlab jupyter-server-terminals packaging
 # Si algún custom node ha degradado onnxruntime, esto lo restaura.
 # 1.20.1 es la última versión que enlaza contra CUDA 12 (las siguientes piden libcudart.so.13).
 RUN pip uninstall -y onnxruntime onnxruntime-gpu || true && \
-    pip install onnxruntime-gpu==1.20.1
+    pip install "onnxruntime-gpu<1.23"
 
 # ---------- Configuración ----------
 COPY extra_model_paths.yaml /opt/ComfyUI/extra_model_paths.yaml
