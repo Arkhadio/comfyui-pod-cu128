@@ -41,7 +41,7 @@ RUN pip install --index-url https://download.pytorch.org/whl/cu128 \
 # ---------- Compilador + llama-cpp (Searge LLM / prompts en espanol) ----------
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential && \
     rm -rf /var/lib/apt/lists/* && \
-    CC=gcc CXX=g++ pip install llama-cpp-python
+    CMAKE_ARGS="-DGGML_NATIVE=OFF" CC=gcc CXX=g++ pip install --no-binary llama-cpp-python llama-cpp-python
 
 # Priorizar el cuDNN que trae PyTorch
 RUN echo /usr/local/lib/python3.12/dist-packages/nvidia/cudnn/lib > /etc/ld.so.conf.d/zz-cudnn.conf && ldconfig
