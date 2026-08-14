@@ -89,6 +89,16 @@ RUN git clone --depth 1 https://github.com/Fannovel16/comfyui_controlnet_aux.git
 
 # SAM2 para Wan Animate modo replacement (no tiene requirements.txt)
 RUN git clone --depth 1 https://github.com/kijai/ComfyUI-segment-anything-2.git
+RUN test -f "/opt/ComfyUI/custom_nodes/ComfyUI-segment-anything-2/sam2_configs/sam2.1_hiera_b+.yaml" || \
+    (mkdir -p /opt/ComfyUI/custom_nodes/ComfyUI-segment-anything-2/sam2_configs && \
+     wget -q -O "/opt/ComfyUI/custom_nodes/ComfyUI-segment-anything-2/sam2_configs/sam2.1_hiera_b+.yaml" \
+     "https://raw.githubusercontent.com/kijai/ComfyUI-segment-anything-2/main/sam2_configs/sam2.1_hiera_b%2B.yaml")
+
+RUN git clone --depth 1 https://github.com/lquesada/ComfyUI-Inpaint-CropAndStitch.git comfyui-inpaint-cropandstitch
+
+RUN mkdir -p /opt/ComfyUI/models/upscale_models && \
+    wget -q -O /opt/ComfyUI/models/upscale_models/4x-UltraSharp.pth \
+    "https://huggingface.co/Kim2091/UltraSharp/resolve/main/4x-UltraSharp.pth"
 
 # ---------- Jupyter Lab con terminal ----------
 RUN pip install jupyterlab jupyter-server-terminals packaging
@@ -97,7 +107,7 @@ RUN pip install jupyterlab jupyter-server-terminals packaging
 # Si algún custom node ha degradado onnxruntime, esto lo restaura.
 # 1.20.1 es la última versión que enlaza contra CUDA 12 (las siguientes piden libcudart.so.13).
 RUN pip uninstall -y onnxruntime onnxruntime-gpu || true && \
-    pip install "onnxruntime-gpu<1.23"
+    pip install --force-reinstall --no-cache-dir "onnxruntime-gpu<1.23" "protobuf<5" "numpy<2.5"
 
 # ---------- Configuración ----------
 COPY extra_model_paths.yaml /opt/ComfyUI/extra_model_paths.yaml
