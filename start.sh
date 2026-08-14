@@ -85,7 +85,7 @@ pip install --break-system-packages -q \
     2>/dev/null && echo "  librerias pip OK"
 pip install --break-system-packages -q -U diffusers 2>/dev/null && echo "  diffusers actualizado"
 pip uninstall -y onnxruntime --break-system-packages 2>/dev/null || true
-pip install --break-system-packages -q "onnxruntime-gpu<1.23" "protobuf<5" && echo "  onnxruntime-gpu OK"
+pip install --break-system-packages -q --force-reinstall --no-cache-dir "onnxruntime-gpu<1.23" "protobuf<5" "numpy<2.5" && echo "  onnxruntime-gpu OK"
 
 # ---------- clip_vision con nombre alternativo (Wan Animate) ----------
 CV=/workspace/runpod-slim/ComfyUI/models/clip_vision
