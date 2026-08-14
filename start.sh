@@ -81,9 +81,11 @@ fi
 echo "Verificando librerias pip..."
 pip install --break-system-packages -q \
     insightface timm mediapipe==0.10.14 blend_modes facexlib kornia accelerate \
-    gguf qwen_vl_utils sageattention "onnxruntime-gpu<1.23" \
+    gguf qwen_vl_utils sageattention \
     2>/dev/null && echo "  librerias pip OK"
 pip install --break-system-packages -q -U diffusers 2>/dev/null && echo "  diffusers actualizado"
+pip uninstall -y onnxruntime --break-system-packages 2>/dev/null || true
+pip install --break-system-packages -q "onnxruntime-gpu<1.23" "protobuf<5" && echo "  onnxruntime-gpu OK"
 
 # ---------- clip_vision con nombre alternativo (Wan Animate) ----------
 CV=/workspace/runpod-slim/ComfyUI/models/clip_vision
