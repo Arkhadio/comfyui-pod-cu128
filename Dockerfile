@@ -95,6 +95,27 @@ RUN test -f "/opt/ComfyUI/custom_nodes/ComfyUI-segment-anything-2/sam2_configs/s
      "https://raw.githubusercontent.com/kijai/ComfyUI-segment-anything-2/main/sam2_configs/sam2.1_hiera_b%2B.yaml")
 
 RUN git clone --depth 1 https://github.com/lquesada/ComfyUI-Inpaint-CropAndStitch.git comfyui-inpaint-cropandstitch
+# ---- Arsenal imagen ----
+RUN git clone --depth 1 https://github.com/kijai/ComfyUI-Florence2.git && \
+    [ -f ComfyUI-Florence2/requirements.txt ] && pip install -r ComfyUI-Florence2/requirements.txt || true
+RUN git clone --depth 1 https://github.com/SeargeDP/ComfyUI_Searge_LLM.git
+RUN git clone --depth 1 https://github.com/city96/ComfyUI-GGUF.git && \
+    [ -f ComfyUI-GGUF/requirements.txt ] && pip install -r ComfyUI-GGUF/requirements.txt || true
+RUN git clone --depth 1 https://github.com/liusida/ComfyUI-AutoCropFaces.git
+RUN git clone --depth 1 https://github.com/yolain/ComfyUI-Easy-Use.git comfyui-easy-use && \
+    [ -f comfyui-easy-use/requirements.txt ] && pip install -r comfyui-easy-use/requirements.txt || true
+RUN git clone --depth 1 https://github.com/1038lab/ComfyUI-RMBG.git comfyui-rmbg && \
+    [ -f comfyui-rmbg/requirements.txt ] && pip install -r comfyui-rmbg/requirements.txt || true
+# ---- Arsenal vídeo (wan) ----
+RUN git clone --depth 1 https://github.com/kijai/ComfyUI-WanVideoWrapper.git && \
+    [ -f ComfyUI-WanVideoWrapper/requirements.txt ] && pip install -r ComfyUI-WanVideoWrapper/requirements.txt || true
+RUN git clone --depth 1 https://github.com/kijai/ComfyUI-WanAnimatePreprocess.git
+RUN git clone --depth 1 https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler.git seedvr2_videoupscaler && \
+    [ -f seedvr2_videoupscaler/requirements.txt ] && pip install -r seedvr2_videoupscaler/requirements.txt || true
+RUN git clone --depth 1 https://github.com/WeChatCV/Stand-In_Preprocessor_ComfyUI.git
+RUN git clone --depth 1 https://github.com/kael558/ComfyUI-GGUF-FantasyTalking.git
+RUN git clone --depth 1 https://github.com/kijai/ComfyUI-MelBandRoFormer.git comfyui-melbandroformer && \
+    [ -f comfyui-melbandroformer/requirements.txt ] && pip install -r comfyui-melbandroformer/requirements.txt || true
 
 RUN mkdir -p /opt/ComfyUI/models/upscale_models && \
     wget -q -O /opt/ComfyUI/models/upscale_models/4x-UltraSharp.pth \
