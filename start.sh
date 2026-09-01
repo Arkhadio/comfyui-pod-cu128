@@ -87,6 +87,9 @@ pip install --break-system-packages -q -U diffusers 2>/dev/null && echo "  diffu
 pip uninstall -y onnxruntime --break-system-packages 2>/dev/null || true
 pip install --break-system-packages -q --force-reinstall --no-cache-dir "onnxruntime-gpu<1.23" "protobuf<5" "numpy<2.5" && echo "  onnxruntime-gpu OK"
 
+# ---------- TRELLIS2 (wheels CUDA guardados en el volumen) ----------
+[ -f /workspace/trellis_deps.sh ] && bash /workspace/trellis_deps.sh || echo "  aviso: TRELLIS deps no instaladas"
+
 # ---------- clip_vision con nombre alternativo (Wan Animate) ----------
 CV=/workspace/runpod-slim/ComfyUI/models/clip_vision
 if [[ -f "$CV/CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors" ]]; then
