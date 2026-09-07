@@ -76,6 +76,10 @@ if [[ -d "$VOL_NODES" ]]; then
     done
 fi
 
+# ---------- Geometría 3D ----------
+cp /workspace/extra_paths_geo.yaml /opt/ComfyUI/extra_model_paths.yaml
+ln -sf /workspace/custom_nodes_geo/save_mesh_objstl_core.py /opt/ComfyUI/custom_nodes/
+
 # ---------- Librerias pip que usan los custom nodes del volumen ----------
 # No estan en la imagen base; se reinstalan aqui (rapido si ya estan en cache del volumen).
 echo "Verificando librerias pip..."
