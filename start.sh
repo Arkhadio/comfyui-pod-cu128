@@ -145,6 +145,7 @@ fi
 cd /opt/ComfyUI
 echo "Arrancando ComfyUI en el puerto 8188..."
 exec python main.py \
+    --use-pytorch-cross-attention \
     --listen 0.0.0.0 \
     --port 8188 \
     --enable-cors-header \
